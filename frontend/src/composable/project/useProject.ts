@@ -16,6 +16,9 @@ import { formatDate } from "@/lib/formatDate"
 
 
 
+const MAX_SIZE_KB = 500;
+const MIN_SIZE_KB = 100;
+
 export function useProject() {
 
     const projectStore = useProjectStore()
@@ -39,6 +42,17 @@ export function useProject() {
           metadata: z.string().min(2, {
             message: "metadata dibutuhkan",
           }),
+          file: z
+            .instanceof(File)
+            .refine((file) => file.type === "application/pdf", {
+              message: "File harus berupa PDF",
+            })
+            .refine((file) => file.size >= MIN_SIZE_KB * 1024, {
+              message: `Ukuran file minimal ${MIN_SIZE_KB}KB`,
+            })
+            .refine((file) => file.size <= MAX_SIZE_KB * 1024, {
+              message: `Ukuran file maksimal ${MAX_SIZE_KB}KB`,
+            }),
         })
       );
       const form = useForm({
@@ -73,6 +87,11 @@ export function useProject() {
         end: form.values.end ?? '',
         metadata: form.values.metadata ?? "",
         
+        
+     }
+
+     if(form.values.file) {
+        updateSchema['file'] = form.values.file as File
      }
       await projectStore.update(id, updateSchema).then(() => {
         router.back()
@@ -88,7 +107,10 @@ export function useProject() {
         start: form.values.start ?? "",
         end: form.values.end ?? "",
         metadata: form.values.metadata ?? "",
+        file: form.values.file as File
       };
+
+      console.log(schema)
       await projectStore.store(schema, () => router.back());
     }
 

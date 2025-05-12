@@ -27,7 +27,6 @@ const useProjectStore = defineStore("projectStore", {
     ) {
       try {
         const response = await projectUsecase.export(columns);
-
         if (successCallback) successCallback();
       } catch (error) {
         console.log(error);
@@ -81,6 +80,8 @@ const useProjectStore = defineStore("projectStore", {
       errorCallback?: (err: Record<string, any>) => void
     ) {
       try {
+
+        console.log('schema', schema)
         const response = await projectUsecase.create(schema);
 
         if (successCallback) {

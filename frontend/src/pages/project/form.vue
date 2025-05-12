@@ -33,6 +33,15 @@ const jsonVal = computed({
     get: () => form.values.metadata,
     set: (val) => form.setFieldValue('metadata', JSON.stringify(val)),
 })
+
+function onFileChange(event) {
+
+
+    const file = event.target.files[0]
+
+    console.log(file)
+    form.setFieldValue('file', file)
+}
 </script>
 
 <template>
@@ -89,13 +98,25 @@ const jsonVal = computed({
                 </FormItem>
             </FormField>
 
+            <FormField v-slot="{ componentField }" name="file">
+                <FormItem>
+                    <FormLabel>File</FormLabel>
+                    <FormControl>
+                        <div class="grid w-full max-w-sm items-center gap-1.5">
+                            <Input id="file" type="file" @change="onFileChange" />
+                        </div>
+                    </FormControl>
+                    <FormMessage />
+                </FormItem>
+            </FormField>
             <!-- {{ form.watch("metadata") }} -->
         </FormWrapper>
 
 
 
         <div class="xl:mt-8 mt-6">
-            <CustomDatatable :show-input-search="false"  v-if="getterDetailProject" :columns="auditColumns" :datas="getterDetailProject.audits" :column-helper="auditColumns" />
+            <CustomDatatable :show-input-search="false" v-if="getterDetailProject" :columns="auditColumns"
+                :datas="getterDetailProject.audits" :column-helper="auditColumns" />
         </div>
     </MainContent>
 

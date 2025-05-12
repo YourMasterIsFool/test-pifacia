@@ -3,4 +3,5 @@ export interface CreateProjectDto {
   start: string;
   end: string;
   metadata: string;
+  file: File
 }

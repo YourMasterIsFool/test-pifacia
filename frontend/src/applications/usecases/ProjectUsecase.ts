@@ -11,6 +11,8 @@ export class ProjectUsecase {
     return await this.repo.get(filter);
   }
   async create(schema: CreateProjectDto): Promise<ProjectEntity | null> {
+
+    console.log('project use case', schema);
     return await this.repo.create(schema);
   }
 

@@ -7,10 +7,19 @@ import type { FilterData } from "../dto/datatable/FilterDataDto";
 
 export class ProjectRepositoryImpl implements ProjectRepository {
   async create(schema: CreateProjectDto): Promise<ProjectEntity | null> {
+    const formData = new FormData();
+
+    console.log(schema, 'impl')
+    formData.append("name", schema.name);
+    formData.append("start", schema.start);
+    formData.append("end", schema.end);
+    formData.append("metadata", schema.metadata);
+    formData.append("file", schema.file);
     try {
       let response = await apiClient("/project", {
-        body: schema,
+        body: formData,
         method: "POST",
+       
       });
 
       return response.data as ProjectEntity;

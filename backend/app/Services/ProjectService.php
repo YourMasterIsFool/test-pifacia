@@ -45,6 +45,8 @@ class ProjectService
             return $saved;
         } catch (\Exception $e) {
             Log::info($e);
+
+            dd($e);
             DB::rollBack();
             return $this->internalServer(null, "failed create Project");
         }

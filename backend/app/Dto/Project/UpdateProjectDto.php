@@ -2,6 +2,7 @@
 
 namespace App\Dto\Project;
 
+use Illuminate\Http\UploadedFile;
 
 class UpdateProjectDto
 {
@@ -11,5 +12,7 @@ class UpdateProjectDto
         public string $end,
         public ?bool $is_active,
         public ?string $metadata,
+        public UploadedFile $file,
+
     ) {}
 }

@@ -7,8 +7,8 @@ export async function apiClient(url: string, options: FetchOptions = {}) {
   const token = localStorage.getItem("token");
 
   const headers: HeadersInit = {
-    "Content-Type": "application/json",
-    Accept: "application/json",
+    // "Content-Type": "application/json",
+    // Accept: "application/json",
     ...(options.headers || {}),
     ...(token ? { Authorization: `Bearer ${token}` } : {}), // Tambahkan token jika ada
   };

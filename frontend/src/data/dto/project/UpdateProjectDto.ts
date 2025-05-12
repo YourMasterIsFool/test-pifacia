@@ -3,4 +3,5 @@ export interface UpdateProjectDto {
   start: string;
   end: string;
   metadata: string;
+  file?: File
 }

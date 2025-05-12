@@ -3,15 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
-
-class Project extends Model
+class ProjectDocument extends Model
 {
-
-    use SoftDeletes;
-
     public $incrementing = false;
     protected $keyType = 'string';
     // protected $fillable = ['name', 'code'];
@@ -26,18 +21,4 @@ class Project extends Model
             }
         });
     }
-
-    public function audits() {
-        return $this->hasMany(Audit::class, 'master_id', 'id');
-    }
-    public function creator()
-    {
-        return $this->belongsTo(User::class, 'creator_id', 'id');
-    }
-
-    public function documents()
-    {
-        return $this->hasMany(ProjectDocument::class, 'project_id', 'id');
-    }
-    //
 }

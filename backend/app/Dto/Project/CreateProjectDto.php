@@ -2,6 +2,7 @@
 
 namespace App\Dto\Project;
 
+use Illuminate\Http\UploadedFile;
 
 class CreateProjectDto
 {
@@ -11,5 +12,6 @@ class CreateProjectDto
         public string $end,
         public ?bool $is_active,
         public ?string $metadata,
+        public UploadedFile $file,
     ) {}
 }

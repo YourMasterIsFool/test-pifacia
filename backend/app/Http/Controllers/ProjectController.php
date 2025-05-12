@@ -50,7 +50,6 @@ class ProjectController extends Controller
             $validated = ProjectData::from($request);
         } catch (\Exception $e) {
 
-            dd($e);
             return $this->unProcessableEntity($e->errors());
         }
 

@@ -36,8 +36,8 @@ export function useAuth() {
     }
     await authStore.login(schema).then(() => {
       router.push({
-        name: 'dashboard'
-      })
+        name: "dashboard",
+      });
     })
   })
 
