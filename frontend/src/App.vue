@@ -1,9 +1,6 @@
 <script  lang="ts" setup>
 
-import {useAuth} from '@/composable/auth/useAuth'
-  const {
-    user
-  } =  useAuth()
+// 
 </script>
 
 <template>

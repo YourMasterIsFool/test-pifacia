@@ -18,9 +18,10 @@ class AdminMiddleware
     use ResponseTrait;
     public function handle($request, Closure $next)
     {
-        if ($request->user() && !$request->user()->role->name != 'administrator') {
+        
+        if ($request->user() && $request->user()->role->name != 'administrator') {
           
-            return $this->notFound(null);
+            return $this->permissionDenied(null);
         }
         return $next($request);
     }

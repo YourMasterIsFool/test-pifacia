@@ -34,18 +34,10 @@ export function useAuth() {
       'email' : values.email,
       'password': values. password,
     }
-    await authStore.login(schema, () =>{
+    await authStore.login(schema).then(() => {
       router.push({
         name: 'dashboard'
       })
-    }, (error) => {
-      if ("email" in error){
-        form.setFieldError("email", error['email'])
-      }
-
-      if ("password" in error) {
-        form.setFieldError("password", error["password"]);
-      }
     })
   })
 
@@ -56,7 +48,7 @@ export function useAuth() {
 
   function logout() {
     localStorage.removeItem('token');
-    window.location.href="/login";
+    // window.location.href="/login";
   }
 
   

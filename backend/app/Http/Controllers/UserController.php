@@ -23,7 +23,6 @@ class UserController extends Controller
     public function index()
     {
         //
-
         return $this->successResponse($this->service->get(), "Successfully get data");
     }
 

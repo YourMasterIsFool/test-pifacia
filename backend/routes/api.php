@@ -21,9 +21,9 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::resource("role", RoleController::class);
     Route::resource("project", ProjectController::class);
 
-    Route::middleware(['admin'])->group(function() {
-        Route::resource("user", UserController::class);
-    });
+   
+    // Route::resource("user", UserController::class);
+
     Route::resource("task", TaskController::class);
     Route::resource("sub-task", SubTaskController::class);
 
@@ -37,5 +37,9 @@ Route::middleware("auth:sanctum")->group(function () {
 });
 
 
+
+Route::middleware(["auth:sanctum", 'admin'])->group(function () {
+    Route::resource("user", UserController::class);
+});
 // auth
 Route::post('/login', [AuthController::class, 'login'])->name("auth.login");

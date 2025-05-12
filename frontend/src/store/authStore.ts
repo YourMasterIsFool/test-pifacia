@@ -55,6 +55,8 @@ export const useAuthStore = defineStore("authStore", {
         const response = await authUsecase.login(schema);
         this.token = response as string
         localStorage.setItem('token', response as string);
+
+        
       } catch (error) {
         if(error instanceof FetchError) {
           this.errors =  error.response?._data?.errors;
