@@ -40,6 +40,16 @@ trait ResponseTrait
         ], 422));
     }
 
+
+    public function permissionDenied($data, $message = "Permission Denied")
+    {
+        throw new HttpResponseException(response()->json([
+            'status' => 'error',
+            'message' => $message,
+            'errors' => $data,
+        ], 403));
+    }
+
     public function internalServer($data, $message = 'Internal Server')
     {
         throw new HttpResponseException(response()->json([

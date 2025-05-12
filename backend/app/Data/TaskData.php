@@ -18,10 +18,10 @@ class TaskData extends Data
         public string $name,
 
         #[Required]
-        public Carbon $start,
+        public string $start,
 
-        #[Required, Date]
-        public Carbon $end,
+        #[Required]
+        public string $end,
         public ?string $metadata,
         public ?bool $is_finish,
 
@@ -32,6 +32,15 @@ class TaskData extends Data
     ) {}
 
 
+
+    public static function rules(): array
+    {
+        return [
+            'start' => 'required|date',
+            'end' => 'required|date',
+
+        ];
+    }
 
     public static function messages(...$args): array
     {

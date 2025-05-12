@@ -25,7 +25,7 @@ class AuthService extends ResponseService
         $findByUser =  $this->User_repo->findByEmail($login->email);
 
         if(!$findByUser) {
-            return $this->notFound(['email' => "email tidak ada"]);
+            return $this->badRequestResponse(['email' => "email tidak ada"]);
         }
 
         if (!Hash::check($login->password, $findByUser->password)) {
@@ -40,5 +40,11 @@ class AuthService extends ResponseService
         return [
             'token' => auth()->user()->createToken("auth_token")->plainTextToken        
         ];
+    }
+
+    public function profile($id)
+    {
+        $findByUser =  $this->User_repo->detail($id);
+        return $findByUser;
     }
 }

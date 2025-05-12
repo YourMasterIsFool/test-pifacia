@@ -46,7 +46,6 @@ class ProjectController extends Controller
     {
 
 
-        // dd($request->all());
         try {
             $validated = ProjectData::from($request);
         } catch (\Exception $e) {
@@ -102,5 +101,12 @@ class ProjectController extends Controller
         //
 
         return $this->successResponse($this->service->delete($id), "Succesfully delete Project");
+    }
+
+    public function export(Request $request) {
+        if(!$request->columns)  {
+            return $this->badRequestResponse(null, "coba centang minimal 1");
+        }
+        return $this->service->export($request->columns);
     }
 }

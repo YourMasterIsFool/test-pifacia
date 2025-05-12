@@ -1,6 +1,7 @@
 <?php
 namespace App\Repository;
 
+use App\Dto\Datatable\DatatableFilterDto;
 use App\Dto\Role\CreateRole as RoleCreateRole;
 use App\Dto\Role\UpdateRole;
 use App\Models\Role;
@@ -15,8 +16,16 @@ class RoleRepository {
         return $model;
     }
 
-    public function get() {
-        return Role::get();
+    public function get(DatatableFilterDto $filter) {
+
+        $query  = Role::query();
+        if ($filter->search) {
+            $query =  $query->where('name', 'like', '%' . $filter->search . '%');
+        }
+        if ($filter->sorting) {
+            $query =  $query->orderBy('created_at', $filter->sorting);
+        }
+        return $query->get();
     }
 
     public function update(string $id,UpdateRole $role)

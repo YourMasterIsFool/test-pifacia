@@ -1,6 +1,7 @@
 <?php 
 namespace App\Services;
 
+use App\Dto\Datatable\DatatableFilterDto;
 use App\Dto\Role\CreateRole as RoleCreateRole;
 use App\Dto\Role\UpdateRole;
 use App\Repository\RoleRepository;
@@ -16,9 +17,9 @@ class RoleService extends ResponseService {
         
     }
 
-    public function get()
+    public function get(DatatableFilterDto $filter)
     {
-        return $this->role_repo->get();
+        return $this->role_repo->get($filter);
     }
     public function save(RoleCreateRole $schema) {
         DB::beginTransaction();

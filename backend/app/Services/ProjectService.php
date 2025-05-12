@@ -9,12 +9,17 @@ use App\Dto\Datatable\DatatableFilterDto;
 use App\Dto\Project\UpdateProject;
 use App\Dto\Project\CreateProjectDto;
 use App\Dto\Project\UpdateProjectDto;
+use App\Exports\DynamicExport;
+use App\Models\Project;
 use App\Repository\ProjectRepository;
+use App\Traits\ResponseTrait;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
 
-class ProjectService extends ResponseService
-{
+class ProjectService
+{   
+    use ResponseTrait;
     public function __construct(
         public ProjectRepository $Project_repo,
         public AuditService $audit_service,
@@ -28,7 +33,11 @@ class ProjectService extends ResponseService
     {
         DB::beginTransaction();
         try {
+
+            Log::info("MEMORY START: " . memory_get_usage(true));
             $saved =  $this->Project_repo->save($schema);
+
+            Log::info("MEMORY AFTER SAVE: " . memory_get_usage(true));
             // create audit
             $auditDto = new CreateAuditDto(auth()->user()->name, "Create Project $saved->name", AuditAction::CREATE, AuditFeatures::PROJECT, $saved->id);
             $this->audit_service->save($auditDto);
@@ -92,5 +101,12 @@ class ProjectService extends ResponseService
             DB::rollBack();
             return $this->internalServer(null, "failed update Project");
         }
+    }
+
+
+    public function export(array $requestColumns) {
+        $columns = $requestColumns;
+        $project = new Project();
+        return Excel::download(new DynamicExport($project, $columns), 'project.xlsx');
     }
 }

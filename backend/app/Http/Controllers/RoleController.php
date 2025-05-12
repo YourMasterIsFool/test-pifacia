@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Data\RoleData;
+use App\Dto\Datatable\DatatableFilterDto;
 use App\Services\RoleService;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\Request;
@@ -23,11 +24,14 @@ class RoleController extends Controller
     {
         
     }
-    public function index()
+    public function index(Request $request)
     {
         //
-
-        return $this->successResponse($this->service->get(), "Successfully get data");
+        $datatableFilter =  new DatatableFilterDto(
+            $request->search,
+            $request->sorting
+        );
+        return $this->successResponse($this->service->get($datatableFilter), "Successfully get data");
     }
 
     /**

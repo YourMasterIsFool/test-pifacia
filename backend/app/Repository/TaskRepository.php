@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Dto\Datatable\DatatableFilterDto;
 use App\Dto\Task\CreateTaskDto;
 use App\Dto\Task\UpdateTaskDto as TaskUpdateTaskDto;
 use App\Models\Task;
@@ -25,9 +26,16 @@ class TaskRepository
         return $model;
     }
 
-    public function get()
+    public function get(DatatableFilterDto $filter)
     {
-        return Task::get();
+        $query  = Task::query();
+        if ($filter->search) {
+            $query =  $query->where('name', 'ilike', '%' . $filter->search . '%');
+        }
+        if ($filter->sorting) {
+            $query =  $query->orderBy('created_at', $filter->sorting);
+        }
+        return $query->with(['project:id,name'])->get();
     }
 
     public function update(string $id, TaskUpdateTaskDto $Task)
@@ -45,7 +53,7 @@ class TaskRepository
 
     public function detail(string $id)
     {
-        return  Task::where('id', $id)->first();
+        return  Task::where('id', $id)->with(['audits', 'project:id,name'])->first();
     }
 
     public function delete(string $id)

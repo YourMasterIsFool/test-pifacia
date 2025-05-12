@@ -29,4 +29,11 @@ class AuthController extends Controller
 
         return $this->successResponse($this->service->login($validated->toCreateDto()), "Succesfully Login");
     }
+
+    public function profile(Request $request)
+    {
+        return $this->successResponse($this->service->profile($request->user()->id));
+    }
+
+
 }

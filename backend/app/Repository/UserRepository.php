@@ -23,7 +23,7 @@ class UserRepository
 
     public function get()
     {
-        return User::get();
+        return User::with(['role:id,name'])->get();
     }
 
     public function update(string $id, UserUpdateUserDto $User)
@@ -38,7 +38,7 @@ class UserRepository
 
     public function detail(string $id)
     {
-        return  User::where('id', $id)->first();
+        return  User::where('id', $id)->with('role')->first();
     }
 
     public function delete(string $id)

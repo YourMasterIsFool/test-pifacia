@@ -27,4 +27,14 @@ class Task extends Model
             }
         });
     }
+
+    public function audits()
+    {
+        return $this->hasMany(Audit::class, 'master_id', 'id');
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'project_id', 'id');
+    }
 }

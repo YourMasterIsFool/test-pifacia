@@ -35,7 +35,7 @@ class ProjectRepository
         if ($filter->sorting) {
             $project =  $project->orderBy('created_at', $filter->sorting);
         }
-        return $project->with('audits')->get();
+        return $project->select(['name', 'start', 'end', 'id'])->with(['creator'])->get();
     }
 
     public function update(string $id, ProjectUpdateProjectDto $Project)

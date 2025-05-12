@@ -2,26 +2,24 @@
 
 namespace App\Data;
 
-use App\Dto\Task\CreateTaskDto;
-use App\Dto\Task\UpdateTaskDto;
+use App\Dto\SubTask\CreateSubTaskDto;
+use App\Dto\SubTask\UpdateSubTaskDto;
 use Carbon\Carbon;
 use Spatie\LaravelData\Attributes\Validation\Date;
 use Spatie\LaravelData\Attributes\Validation\Required;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Optional;
 
-class TaskData extends Data
+class SubTaskData extends Data
 {
 
     public function __construct(
         #[Required]
         public string $name,
-
         #[Required]
-        public Carbon $start,
-
+        public string $start,
         #[Required, Date]
-        public Carbon $end,
+        public string $end,
         public ?string $metadata,
         public ?bool $is_finish,
         #[Required]
@@ -31,6 +29,16 @@ class TaskData extends Data
     ) {}
 
 
+
+
+    public static function rules(): array
+    {
+        return [
+            'start' => 'required|date',
+            'end' => 'required|date',
+
+        ];
+    }
 
     public static function messages(...$args): array
     {
@@ -46,25 +54,25 @@ class TaskData extends Data
     }
     public function toCreateDto()
     {
-        return new CreateTaskDto(
+        return new CreateSubTaskDto(
             $this->name,
             $this->start,
             $this->end,
             $this->is_finish,
             $this->metadata,
-            $this->project_id,
+            $this->task_id,
         );
     }
 
     public function toUpdateDto()
     {
-        return new UpdateTaskDto(
+        return new UpdateSubTaskDto(
             $this->name,
             $this->start,
             $this->end,
             $this->is_finish,
             $this->metadata,
-            $this->project_id,
+            $this->task_id,
         );
     }
 }

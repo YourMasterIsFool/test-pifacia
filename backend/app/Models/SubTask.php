@@ -28,4 +28,14 @@ class SubTask extends Model
             }
         });
     }
+
+    public function audits()
+    {
+        return $this->hasMany(Audit::class, 'master_id', 'id');
+    }
+
+    public function task()
+    {
+        return $this->belongsTo(Task::class, 'task_id', 'id');
+    }
 }

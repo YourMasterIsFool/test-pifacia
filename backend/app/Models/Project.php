@@ -30,5 +30,9 @@ class Project extends Model
     public function audits() {
         return $this->hasMany(Audit::class, 'master_id', 'id');
     }
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'creator_id', 'id');
+    }
     //
 }

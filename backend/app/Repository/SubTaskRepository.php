@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Dto\Datatable\DatatableFilterDto;
 use App\Dto\SubTask\CreateSubTaskDto;
 use App\Dto\SubTask\UpdateSubTaskDto as SubTaskUpdateSubTaskDto;
 use App\Models\SubTask;
@@ -22,9 +23,17 @@ class SubTaskRepository
         return $model;
     }
 
-    public function get()
+    public function get(DatatableFilterDto $filter)
     {
-        return SubTask::get();
+
+        $query  = SubTask::query();
+        if ($filter->search) {
+            $query =  $query->where('name', 'like', '%' . $filter->search . '%');
+        }
+        if ($filter->sorting) {
+            $query =  $query->orderBy('created_at', $filter->sorting);
+        }
+        return $query->with(['task:id,name'])->get();
     }
 
     public function update(string $id, SubTaskUpdateSubTaskDto $SubTask)
@@ -42,7 +51,7 @@ class SubTaskRepository
 
     public function detail(string $id)
     {
-        return  SubTask::where('id', $id)->first();
+        return  SubTask::where('id', $id)->with('audits')->first();
     }
 
     public function delete(string $id)

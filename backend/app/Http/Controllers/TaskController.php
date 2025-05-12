@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Data\TaskData;
+use App\Dto\Datatable\DatatableFilterDto;
 use App\Services\TaskService;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\Request;
@@ -20,11 +21,15 @@ class TaskController extends Controller
     public function __construct(
         public TaskService $service
     ) {}
-    public function index()
+    public function index(Request $request)
     {
         //
 
-        return $this->successResponse($this->service->get(), "Successfully get data");
+        $datatableFilter =  new DatatableFilterDto(
+            $request->search,
+            $request->sorting
+        );
+        return $this->successResponse($this->service->get($datatableFilter), "Successfully get data");
     }
 
     /**
@@ -94,5 +99,13 @@ class TaskController extends Controller
         //
 
         return $this->successResponse($this->service->delete($id), "Succesfully delete Task");
+    }
+
+    public function export(Request $request)
+    {
+        if (!$request->columns) {
+            return $this->badRequestResponse(null, "coba centang minimal 1");
+        }
+        return $this->service->export($request->columns);
     }
 }
